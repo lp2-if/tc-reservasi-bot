@@ -63,7 +63,7 @@ def handle_message(event):
                 "end": tomorrow.strftime("%Y-%m-%d")
             }
             url = 'http://reservasi.if.its.ac.id/calendar/accepted/%s' % roomname
-            schedules = requests.get(url, payload)
+            schedules = requests.get(url, payload).json()
             message = 'Kegiatan di %s untuk hari ini:' % roomname
             for schedule in schedules:
                 messagePart = '\nAcara: %(title)s\nMulai: %(start)s\nSelesai: %(end)s\n' %{
