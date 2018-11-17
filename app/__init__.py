@@ -10,6 +10,8 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
+import requests
+import datetime
 
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
@@ -49,10 +51,38 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text)
-    )
+    try:
+        text = event.message.text.strip()
+        if (text.lower().startswith("today")):
+            commands = text.split(' ')
+            today = datetime.datetime.today()
+            tomorrow = datetime.date.today() + datetime.timedelta(days=7)
+            roomname = commands[1]
+            payload = {
+                "start": today.strftime("%Y-%m-%d"),
+                "end": tomorrow.strftime("%Y-%m-%d")
+            }
+            url = 'http://reservasi.if.its.ac.id/calendar/accepted/%s' % roomname
+            schedules = requests.get(url, payload)
+            message = 'Kegiatan di %s untuk hari ini:' % roomname
+            for schedule in schedules:
+                messagePart = '\nAcara: %(title)s\nMulai: %(start)s\nSelesai: %(end)s\n' %{
+                    'title': schedule['title'],
+                    'start': schedule['start'],
+                    'end':  schedule['end']
+                }
+                message += messagePart
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=message)
+            )
+    except Exception as error:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Error, silahkan cek ulang perintah anda")
+        )
+        print(error)
+        pass
 
 @app.route('/')
 def hello():
