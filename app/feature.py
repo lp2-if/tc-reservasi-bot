@@ -1,17 +1,12 @@
 import os
 import requests
 import datetime
-from linebot import (
-    LineBotApi, WebhookHandler
-)
+from app.line import line_bot_api
 from linebot.models import (
     TextSendMessage,
     CarouselTemplate, CarouselColumn, PostbackAction,
     MessageAction, TemplateSendMessage, URIAction
 )
-
-channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
-line_bot_api = LineBotApi(channel_access_token)
 
 def test_carousel(event):
     carousel_template = CarouselTemplate(columns=[

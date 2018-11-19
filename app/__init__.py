@@ -1,10 +1,7 @@
 import os
-import sys
 from app.feature import feature_today
+from app.line import line_bot_api, line_handler
 from flask import Flask, request, abort
-from linebot import (
-    LineBotApi, WebhookHandler
-)
 from linebot.exceptions import (
     InvalidSignatureError
 )
@@ -12,20 +9,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
-channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
-channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
-if channel_secret is None:
-    print('Specify LINE_CHANNEL_SECRET as environment variable.')
-    sys.exit(1)
-if channel_access_token is None:
-    print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
-    sys.exit(1)
-
-line_bot_api = LineBotApi(channel_access_token)
-handler = WebhookHandler(channel_secret)
-
 app = Flask(__name__)
-
 app_settings = os.getenv(
     'APP_SETTINGS'
 )
@@ -38,26 +22,26 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
+    app.logger.info("Request body: %s" % body)
 
     # handle webhook body
     try:
-        handler.handle(body, signature)
+        line_handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
 
     return 'OK'
 
-@handler.add(MessageEvent, message=TextMessage)
+@line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     try:
         text = event.message.text.strip()
-        if (text.lower().startswith("today")):
+        if (text.lower().startswith("!today")):
             feature_today(event)
     except Exception as error:
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="Error, silahkan cek ulang perintah anda")
+            TextSendMessage(text="Error, silahkan coba lagi")
         )
         print(error)
 
