@@ -9,6 +9,8 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
+    CarouselTemplate, CarouselColumn, PostbackAction,
+    MessageAction, TemplateSendMessage, URIAction
 )
 import requests
 import datetime
@@ -49,6 +51,21 @@ def callback():
 
     return 'OK'
 
+def test_carousel(event):
+    carousel_template = CarouselTemplate(columns=[
+        CarouselColumn(text='hoge1', title='fuga1', actions=[
+            URIAction(label='Go to line.me', uri='https://line.me'),
+            PostbackAction(label='ping', data='ping')
+        ]),
+        CarouselColumn(text='hoge2', title='fuga2', actions=[
+            PostbackAction(label='ping with text', data='ping', text='ping'),
+            MessageAction(label='Translate Rice', text='米')
+        ]),
+    ])
+    template_message = TemplateSendMessage(
+        alt_text='Carousel alt text', template=carousel_template)
+    line_bot_api.reply_message(event.reply_token, template_message)
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     try:
@@ -57,6 +74,9 @@ def handle_message(event):
             commands = text.split(' ')
             today = datetime.datetime.today()
             tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+            if (len(commands) == 1):
+                test_carousel(event)
+                return
             roomname = commands[1]
             payload = {
                 "start": today.strftime("%Y-%m-%d"),
