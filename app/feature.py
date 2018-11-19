@@ -18,7 +18,7 @@ def send_room_list(event):
     for option in options:
         room_name = option.text
         carousel_columns.append(
-            CarouselColumn(title=room_name, actions=[
+            CarouselColumn(title=room_name, text="action for %s" % room_name, actions=[
                 MessageAction(label='Kegiatan %s hari ini' % room_name, text='!today %s' % room_name)
             ])
         )
