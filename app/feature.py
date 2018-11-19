@@ -41,7 +41,7 @@ def feature_today(event):
     titleMessage = 'Kegiatan di %s untuk hari ini:' % roomname
     message = ''
     for schedule in schedules:
-        messagePart = 'Acara: %(title)s\nMulai: %(start)s\nSelesai: %(end)s\n\n' %{
+        messagePart = '%(title)s\n%(start)s - %(end)s\n\n' %{
             'title': schedule['title'],
             'start': schedule['start'],
             'end':  schedule['end']
