@@ -1,6 +1,5 @@
 import os
 import traceback
-from app.feature import feature_today
 from app.line import line_bot_api, line_handler
 from flask import Flask, request, abort
 from linebot.exceptions import (
@@ -9,8 +8,10 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
+from app.handler.handler import Handler
 
 app = Flask(__name__)
+eventHandler = Handler()
 app_settings = os.getenv(
     'APP_SETTINGS'
 )
@@ -36,9 +37,7 @@ def callback():
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     try:
-        text = event.message.text.strip()
-        if (text.lower().startswith("!today")):
-            feature_today(event)
+        eventHandler.handle(event)
     except Exception as error:
         line_bot_api.reply_message(
             event.reply_token,
