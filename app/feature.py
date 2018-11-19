@@ -18,15 +18,15 @@ def send_room_list(event):
     for option in options:
         room_name = option.text
         carousel_columns.append(
-            CarouselColumn(title=room_name, text="action for %s" % room_name, actions=[
-                MessageAction(label='Kegiatan %s hari ini' % room_name, text='!today %s' % room_name)
+            CarouselColumn(title=room_name, actions=[
+                MessageAction(label='%s hari ini' % room_name, text='!today %s' % room_name)
             ])
         )
     carousel_template = CarouselTemplate(
         columns=carousel_columns
     )
     template_message = TemplateSendMessage(
-        alt_text='Carousel alt text', template=carousel_template
+        alt_text='Daftar ruangan', template=carousel_template
     )
     line_bot_api.reply_message(event.reply_token, template_message)
 
