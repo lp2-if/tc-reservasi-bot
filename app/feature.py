@@ -15,17 +15,17 @@ def send_room_list(event):
     dom = pq(response)
     carousel_columns = []
     options = dom("#room_select option:not([selected])")
-    counter = 0
+    actions = []
     for option in options:
-        if (counter == 10):
-            break
-        counter = counter + 1
         room_name = option.text
-        carousel_columns.append(
-            CarouselColumn(title=room_name, text="Pilihan fitur", actions=[
-                MessageAction(label='%s hari ini' % room_name, text='!today %s' % room_name)
-            ])
+        actions.append(
+            MessageAction(label='%s hari ini' % room_name, text='!today %s' % room_name)
         )
+        if (len(actions) == 3):
+            carousel_columns.append(
+                CarouselColumn(text="Daftar ruangan %d" % len(carousel_columns) + 1, actions=actions)
+            )
+            actions = []
     carousel_template = CarouselTemplate(
         columns=carousel_columns
     )
