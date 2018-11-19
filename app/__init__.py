@@ -67,26 +67,33 @@ def handle_message(event):
             titleMessage = 'Kegiatan di %s untuk hari ini:' % roomname
             message = ''
             for schedule in schedules:
-                messagePart = '\nAcara: %(title)s\nMulai: %(start)s\nSelesai: %(end)s\n' %{
+                messagePart = 'Acara: %(title)s\nMulai: %(start)s\nSelesai: %(end)s\n\n' %{
                     'title': schedule['title'],
                     'start': schedule['start'],
                     'end':  schedule['end']
                 }
                 message += messagePart
-            line_bot_api.reply_message(
-                event.reply_token,
-                [
-                    TextSendMessage(text=titleMessage),
-                    TextSendMessage(text=message)
-                ]
-            )
+            if (message == ''):
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    [
+                        TextSendMessage(text="Hari ini tidak ada kegiatan di %s" %roomname)
+                    ]
+                )
+            else :
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    [
+                        TextSendMessage(text=titleMessage),
+                        TextSendMessage(text=message)
+                    ]
+                )
     except Exception as error:
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="Error, silahkan cek ulang perintah anda")
         )
         print(error)
-        pass
 
 @app.route('/')
 def hello():
