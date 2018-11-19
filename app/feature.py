@@ -1,6 +1,7 @@
 import os
 import requests
 import datetime
+from pyquery import PyQuery as pq
 from app.line import line_bot_api
 from linebot.models import (
     TextSendMessage,
@@ -8,19 +9,25 @@ from linebot.models import (
     MessageAction, TemplateSendMessage, URIAction
 )
 
-def test_carousel(event):
-    carousel_template = CarouselTemplate(columns=[
-        CarouselColumn(text='hoge1', title='fuga1', actions=[
-            URIAction(label='Go to line.me', uri='https://line.me'),
-            PostbackAction(label='ping', data='ping')
-        ]),
-        CarouselColumn(text='hoge2', title='fuga2', actions=[
-            PostbackAction(label='ping with text', data='ping', text='ping'),
-            MessageAction(label='Translate Rice', text='米')
-        ]),
-    ])
+def send_room_list(event):
+    url = 'http://reservasi.if.its.ac.id/calendar'
+    response = requests.get(url)
+    dom = pq(response)
+    carousel_columns = []
+    options = dom("#room_select option:not([selected])")
+    for option in options:
+        room_name = option.text
+        carousel_columns.append(
+            CarouselColumn(title=room_name, actions=[
+                MessageAction(label='Kegiatan %s hari ini' % room_name, text='!today %s' % room_name)
+            ])
+        )
+    carousel_template = CarouselTemplate(
+        columns=carousel_columns
+    )
     template_message = TemplateSendMessage(
-        alt_text='Carousel alt text', template=carousel_template)
+        alt_text='Carousel alt text', template=carousel_template
+    )
     line_bot_api.reply_message(event.reply_token, template_message)
 
 def feature_today(event):
@@ -29,7 +36,7 @@ def feature_today(event):
     today = datetime.datetime.today()
     tomorrow = datetime.date.today() + datetime.timedelta(days=1)
     if (len(commands) == 1):
-        test_carousel(event)
+        send_room_list(event)
         return
     roomname = commands[1]
     payload = {
