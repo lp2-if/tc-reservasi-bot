@@ -56,7 +56,7 @@ def handle_message(event):
         if (text.lower().startswith("today")):
             commands = text.split(' ')
             today = datetime.datetime.today()
-            tomorrow = datetime.date.today() + datetime.timedelta(days=7)
+            tomorrow = datetime.date.today() + datetime.timedelta(days=1)
             roomname = commands[1]
             payload = {
                 "start": today.strftime("%Y-%m-%d"),
