@@ -15,7 +15,11 @@ def send_room_list(event):
     dom = pq(response)
     carousel_columns = []
     options = dom("#room_select option:not([selected])")
+    counter = 0
     for option in options:
+        if (counter == 10):
+            break
+        counter = counter + 1
         room_name = option.text
         carousel_columns.append(
             CarouselColumn(title=room_name, actions=[
