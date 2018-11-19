@@ -43,8 +43,8 @@ def feature_today(event):
     for schedule in schedules:
         messagePart = '%(title)s\n%(start)s - %(end)s\n\n' %{
             'title': schedule['title'],
-            'start': schedule['start'],
-            'end':  schedule['end']
+            'start': schedule['start'].split(' ')[1],
+            'end':  schedule['end'].split(' ')[1]
         }
         message += messagePart
     if (message == ''):
