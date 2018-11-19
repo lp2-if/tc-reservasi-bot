@@ -23,7 +23,7 @@ def send_room_list(event):
         )
         if (len(actions) == 3):
             carousel_columns.append(
-                CarouselColumn(text="Daftar ruangan %d" % len(carousel_columns) + 1, actions=actions)
+                CarouselColumn(text="Daftar ruangan %s" % str(len(carousel_columns) + 1), actions=actions)
             )
             actions = []
     carousel_template = CarouselTemplate(

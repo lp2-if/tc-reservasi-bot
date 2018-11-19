@@ -1,4 +1,5 @@
 import os
+import traceback
 from app.feature import feature_today
 from app.line import line_bot_api, line_handler
 from flask import Flask, request, abort
@@ -44,6 +45,7 @@ def handle_message(event):
             TextSendMessage(text="Error, silahkan coba lagi")
         )
         print(str(error))
+        traceback.print_exc()
 
 @app.route('/')
 def hello():
