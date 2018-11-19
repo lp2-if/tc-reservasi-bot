@@ -64,7 +64,8 @@ def handle_message(event):
             }
             url = 'http://reservasi.if.its.ac.id/calendar/accepted/%s' % roomname
             schedules = requests.get(url, payload).json()
-            message = 'Kegiatan di %s untuk hari ini:' % roomname
+            titleMessage = 'Kegiatan di %s untuk hari ini:' % roomname
+            message = ''
             for schedule in schedules:
                 messagePart = '\nAcara: %(title)s\nMulai: %(start)s\nSelesai: %(end)s\n' %{
                     'title': schedule['title'],
@@ -74,7 +75,10 @@ def handle_message(event):
                 message += messagePart
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=message)
+                [
+                    TextSendMessage(text=titleMessage),
+                    TextSendMessage(text=message)
+                ]
             )
     except Exception as error:
         line_bot_api.reply_message(
