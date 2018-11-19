@@ -11,7 +11,7 @@ from linebot.models import (
 
 def send_room_list(event):
     url = 'http://reservasi.if.its.ac.id/calendar'
-    response = requests.get(url)
+    response = requests.get(url).content
     dom = pq(response)
     carousel_columns = []
     options = dom("#room_select option:not([selected])")

@@ -43,7 +43,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text="Error, silahkan coba lagi")
         )
-        print(error)
+        print(str(error))
 
 @app.route('/')
 def hello():
