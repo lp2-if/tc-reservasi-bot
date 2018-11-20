@@ -29,7 +29,7 @@ class MessageEventHandler:
         if (text.startswith("!today")):
             self.feature_today(event)
         else:
-            self.reply("Maaf fitur ini belum tersedia, coba lagi nanti")
+            self.reply(event, "Maaf fitur ini belum tersedia, coba lagi nanti")
 
 
     def reply(self, event, message):
