@@ -19,7 +19,7 @@ class MessageEventHandler:
             text = event.message.text.strip()
 
             if (text.lower().startswith("!today")):
-                self.featureToday(event)
+                self.feature_today(event)
         except Exception as error:
             line_bot_api.reply_message(
                 event.reply_token,
