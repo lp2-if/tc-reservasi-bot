@@ -31,6 +31,8 @@ class MessageEventHandler:
             self.feature_today(event)
         elif (text.startswith("!help")):
             self.feature_help(event)
+        elif (text.startswith("!status")):
+            self.feature_status(event)
         elif (text.startswith("!")):
             self.reply(event, "Maaf, perintah ini tidak dikenali.")
 
@@ -44,7 +46,7 @@ class MessageEventHandler:
         message = "Beberapa perintah yang dapat kamu berikan: \n\n"
         message += "1. !today\nUntuk melihat ruangan yang tersedia\n"
         message += "2. !today <nama_ruang>\nUntuk melihat jadwal hari ini\n\n"
-        # message += "3. !status <nama_kamu>\nuntuk mengecek status reservasi kamu\n\n"
+        message += "3. !status <nama_kamu>\nuntuk mengecek status reservasi kamu\n\n"
         message += "Hubungi admin LP2 untuk tambahan fitur\n"
         text_message = TextSendMessage(text=message)
 
@@ -54,10 +56,10 @@ class MessageEventHandler:
                     MessageAction(label='Daftar ruangan', text='!today'),
                     MessageAction(label='Jadwal LP2 hari ini',
                                   text='!today LP2'),
-                    URIAction(label='Web reservasi IF',
-                              uri='http://reservasi.if.its.ac.id/'),
-                    # MessageAction(label='Status reservasi',
-                    #               text='!status'),
+                    # URIAction(label='Web reservasi IF',
+                    #           uri='http://reservasi.if.its.ac.id/'),
+                    MessageAction(label='Status reservasi',
+                                  text='!status'),
                 ])
             ]
         )
@@ -67,6 +69,48 @@ class MessageEventHandler:
             text_message,
             template_message
         ])
+
+    def feature_status(self, event):
+        text = event.message.text.strip()
+        commands = text.split(' ')
+        if (len(commands) == 1):
+            self.reply(event, "!status <nama_kamu> untuk mengecek status reservasi kamu\n")
+            return
+        name = commands[1]
+        payload = {
+            "peminjam": name
+        }
+        url = "http://reservasi.if.its.ac.id/reserve/status"
+        response = requests.get(url, payload).content
+        dom = pq(response)
+        statuses = dom(".responsive-table tbody tr")
+        title_message = "Status reservasi untuk %s" % name
+        message = ""
+        for status in statuses:
+            tr = pq(status)
+            activity_name = tr.children("td")[2].text
+            activity_status = tr.children("td")[4].text
+            message += "%(activity)s\n%(status)s\n\n" % {
+                'activity': activity_name,
+                'status': activity_status
+            }
+        if (len(message) == 0):
+            line_bot_api.reply_message(
+                event.reply_token,
+                [
+                    TextSendMessage(
+                        text="Tidak ada reservasi dari %s" % name)
+                ]
+            )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                [
+                    TextSendMessage(text=title_message),
+                    TextSendMessage(text=message.strip())
+                ]
+            )
+
 
     def feature_today(self, event):
         text = event.message.text.strip()
@@ -89,7 +133,7 @@ class MessageEventHandler:
 
         schedules = requests.get(url, payload).json()
 
-        titleMessage = 'Kegiatan di %s untuk hari ini:' % roomname
+        title_message = 'Kegiatan di %s untuk hari ini:' % roomname
 
         message = ''
 
@@ -112,8 +156,8 @@ class MessageEventHandler:
             line_bot_api.reply_message(
                 event.reply_token,
                 [
-                    TextSendMessage(text=titleMessage),
-                    TextSendMessage(text=message)
+                    TextSendMessage(text=title_message),
+                    TextSendMessage(text=message.strip())
                 ]
             )
 
