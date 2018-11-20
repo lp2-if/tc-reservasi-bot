@@ -50,9 +50,13 @@ class MessageEventHandler:
         message += "Hubungi admin LP2 untuk tambahan fitur\n"
         text_message = TextSendMessage(text=message)
 
-        user_id = event.source.user_id
-        profile = line_bot_api.get_profile(user_id)
-        firstName = profile.display_name.split(' ')[0]
+        user_id = event.source.userId or event.source.user_id
+        first_name = " "
+        try:
+            profile = line_bot_api.get_profile(user_id)
+            first_name = profile.display_name.split(' ')[0]
+        except Exception as e:
+            pass
 
         carousel_template = CarouselTemplate(
             columns=[
@@ -63,7 +67,7 @@ class MessageEventHandler:
                     # URIAction(label='Web reservasi IF',
                     #           uri='http://reservasi.if.its.ac.id/'),
                     MessageAction(label='Status reservasi',
-                                  text='!status %s' % firstName),
+                                  text='!status %s' % first_name),
                 ])
             ]
         )
