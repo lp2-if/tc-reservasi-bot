@@ -42,14 +42,13 @@ class MessageEventHandler:
 
     def feature_help(self, event):
         message = "Beberapa perintah yang dapat anda berikan: \n\n"
-        message += "1. !today\nUntuk melihat ruangan yang tersedia\n\n"
-        message += "2. !today [SPASI] nama ruangan\nUntuk melihat jadwal kegiatan di ruangan tersebut untuk hari ini\n\n"
-        message += "3. !help\nUntuk melihat daftar perintah yang tersedia\n\n"
+        message += "1. !today\nUntuk melihat ruangan yang tersedia\n"
+        message += "2. !help\nUntuk melihat daftar perintah yang tersedia\n\n"
 
         buttons_template = ButtonsTemplate(
-            text='Bot ini akan membantu anda untuk berinteraksi dengan web reservasi IF, hubungi admin LP2 apabila ada fitur tambahan yang kamu inginkan.\nSilahkan pilih menu dibawah untuk memulai', actions=[
-                MessageAction(label='Lihat daftar ruangan', text='!today'),
-                MessageAction(label='Lihat jadwal hari ini',
+            text='Bot ini membantu anda untuk berinteraksi dengan web reservasi IF, hubungi admin LP2 apabila ada fitur yang kamu inginkan.\nPilih menu dibawah untuk memulai', actions=[
+                MessageAction(label='Daftar ruangan', text='!today'),
+                MessageAction(label='Jadwal hari ini',
                               text='!today LP2'),
                 URIAction(label='Web reservasi IF',
                           uri='http://reservasi.if.its.ac.id/')
