@@ -4,7 +4,7 @@ import datetime
 import traceback
 from pyquery import PyQuery as pq
 from linebot.models import (
-    TextSendMessage,
+    TextSendMessage, ButtonsTemplate,
     CarouselTemplate, CarouselColumn, PostbackAction,
     MessageAction, TemplateSendMessage, URIAction
 )
@@ -42,12 +42,21 @@ class MessageEventHandler:
 
     def feature_help(self, event):
         message = "Beberapa perintah yang dapat anda berikan: \n\n"
-
         message += "1. !today\nUntuk melihat ruangan yang tersedia\n\n"
         message += "2. !today [SPASI] nama ruangan\nUntuk melihat jadwal kegiatan di ruangan tersebut untuk hari ini\n\n"
         message += "3. !help\nUntuk melihat daftar perintah yang tersedia\n\n"
 
-        self.reply(event, message)
+        buttons_template = ButtonsTemplate(
+            text='Bot ini akan membantu anda untuk berinteraksi dengan web reservasi IF, hubungi admin LP2 apabila ada fitur tambahan yang kamu inginkan.\nSilahkan pilih menu dibawah untuk memulai', actions=[
+                MessageAction(label='Lihat daftar ruangan', text='!today'),
+                MessageAction(label='Lihat jadwal hari ini',
+                              text='!today LP2'),
+                URIAction(label='Web reservasi IF',
+                          uri='http://reservasi.if.its.ac.id/')
+            ])
+        template_message = TemplateSendMessage(
+            alt_text=message, template=buttons_template)
+        line_bot_api.reply_message(event.reply_token, template_message)
 
     def feature_today(self, event):
         text = event.message.text.strip()
