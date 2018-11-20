@@ -50,6 +50,10 @@ class MessageEventHandler:
         message += "Hubungi admin LP2 untuk tambahan fitur\n"
         text_message = TextSendMessage(text=message)
 
+        user_id = event.source.user_id
+        profile = line_bot_api.get_profile(user_id)
+        firstName = profile.display_name.split(' ')[0]
+
         carousel_template = CarouselTemplate(
             columns=[
                 CarouselColumn(text="Daftar perintah 1", actions=[
@@ -59,7 +63,7 @@ class MessageEventHandler:
                     # URIAction(label='Web reservasi IF',
                     #           uri='http://reservasi.if.its.ac.id/'),
                     MessageAction(label='Status reservasi',
-                                  text='!status'),
+                                  text='!status %s' % firstName),
                 ])
             ]
         )
