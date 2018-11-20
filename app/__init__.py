@@ -11,7 +11,7 @@ from linebot.models import (
 from app.handler.handler import Handler
 
 app = Flask(__name__)
-eventHandler = Handler()
+message_type_handler = Handler()
 app_settings = os.getenv(
     'APP_SETTINGS'
 )
@@ -37,7 +37,7 @@ def callback():
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     try:
-        eventHandler.handle(event)
+        message_type_handler.handle(event)
     except Exception as error:
         line_bot_api.reply_message(
             event.reply_token,

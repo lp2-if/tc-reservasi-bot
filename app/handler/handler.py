@@ -3,11 +3,11 @@ from app.handler.FollowEvent.handler import FollowEventHandler
 
 class Handler():
     def __init__(self):
-        self.messageHandler = MessageEventHandler()
-        self.followHandler = FollowEventHandler()
+        self.message_handler = MessageEventHandler()
+        self.follow_handler = FollowEventHandler()
 
     def handle(self, event):
         if (event.type == 'message'):
-            self.messageHandler.handle(event)
+            self.message_handler.handle(event)
         elif (event.type == 'follow'):
-            self.followHandler.handle(event)
+            self.follow_handler.handle(event)

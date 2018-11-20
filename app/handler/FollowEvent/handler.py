@@ -6,9 +6,9 @@ class FollowEventHandler:
         pass
 
     def handle(self, event):
-        userID = event.source.user_id
+        user_id = event.source.user_id
 
-        profile = line_bot_api.get_profile(userID)
+        profile = line_bot_api.get_profile(user_id)
 
         firstName = profile.display_name.split(' ')[0]
 

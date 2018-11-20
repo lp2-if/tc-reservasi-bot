@@ -28,7 +28,7 @@ class MessageEventHandler:
             print(str(error))
             traceback.print_exc()
 
-    def featureToday(self, event):
+    def feature_today(self, event):
         text = event.message.text.strip()
         commands = text.split(' ')
         today = datetime.datetime.today()
