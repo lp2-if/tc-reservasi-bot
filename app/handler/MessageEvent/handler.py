@@ -41,21 +41,32 @@ class MessageEventHandler:
         )
 
     def feature_help(self, event):
-        message = "Beberapa perintah yang dapat anda berikan: \n\n"
+        message = "Beberapa perintah yang dapat kamu berikan: \n\n"
         message += "1. !today\nUntuk melihat ruangan yang tersedia\n"
-        message += "2. !help\nUntuk melihat daftar perintah yang tersedia\n\n"
+        message += "2. !today <nama_ruang>\nUntuk melihat jadwal hari ini\n\n"
+        message += "3. !status <nama_kamu>\nuntuk mengecek status reservasi kamu\n\n"
+        message += "Hubungi admin LP2 untuk tambahan fitur\n"
+        text_message = TextSendMessage(text=message)
 
-        buttons_template = ButtonsTemplate(
-            text='Bot ini membantu anda untuk berinteraksi dengan web reservasi IF, hubungi admin LP2 apabila ada fitur yang kamu inginkan.\nPilih menu dibawah untuk memulai', actions=[
-                MessageAction(label='Daftar ruangan', text='!today'),
-                MessageAction(label='Jadwal hari ini',
-                              text='!today LP2'),
-                URIAction(label='Web reservasi IF',
-                          uri='http://reservasi.if.its.ac.id/')
-            ])
+        carousel_template = CarouselTemplate(
+            columns=[
+                CarouselColumn(text="Daftar perintah 1", actions=[
+                    MessageAction(label='Daftar ruangan', text='!today'),
+                    MessageAction(label='Jadwal LP2 hari ini',
+                                  text='!today LP2'),
+                    URIAction(label='Web reservasi IF',
+                              uri='http://reservasi.if.its.ac.id/'),
+                    # MessageAction(label='Status reservasi',
+                    #               text='!status'),
+                ])
+            ]
+        )
         template_message = TemplateSendMessage(
-            alt_text=message, template=buttons_template)
-        line_bot_api.reply_message(event.reply_token, template_message)
+            alt_text="", template=carousel_template)
+        line_bot_api.reply_message(event.reply_token, [
+            text_message,
+            template_message
+        ])
 
     def feature_today(self, event):
         text = event.message.text.strip()
