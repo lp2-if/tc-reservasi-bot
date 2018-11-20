@@ -20,7 +20,7 @@ class FollowEventHandler:
 
         command_msg = "1. !today untuk melihat ruangan yang tersedia\n"
         command_msg += "2. !today [SPASI] nama ruangan untuk melihat jadwal kegiatan di ruangan tersebut untuk hari ini\n"
-        command_msg += "3. !about untuk mengetahui perintah yang tersedia\n"
+        command_msg += "3. !help untuk mengetahui perintah yang tersedia\n"
 
         message_body = message1 + message2 + command_msg
 
