@@ -10,6 +10,7 @@ from linebot.models import (
 )
 from app.line import line_bot_api, line_handler
 
+
 class MessageEventHandler:
     def __init__(self):
         pass
@@ -22,8 +23,8 @@ class MessageEventHandler:
 
             print(str(error))
             traceback.print_exc()
-    
-    def parse_command(self, event):        
+
+    def parse_command(self, event):
         text = event.message.text.strip().lower()
 
         if (text.startswith("!today")):
@@ -32,7 +33,6 @@ class MessageEventHandler:
             self.feature_help(event)
         elif (text.startswith("!")):
             self.reply(event, "Maaf, perintah ini tidak dikenali.")
-
 
     def reply(self, event, message):
         line_bot_api.reply_message(
@@ -75,7 +75,7 @@ class MessageEventHandler:
         message = ''
 
         for schedule in schedules:
-            messagePart = '%(title)s\n%(start)s - %(end)s\n\n' %{
+            messagePart = '%(title)s\n%(start)s - %(end)s\n\n' % {
                 'title': schedule['title'],
                 'start': schedule['start'].split(' ')[1],
                 'end':  schedule['end'].split(' ')[1]
@@ -85,10 +85,11 @@ class MessageEventHandler:
             line_bot_api.reply_message(
                 event.reply_token,
                 [
-                    TextSendMessage(text="Hari ini tidak ada kegiatan di %s" %roomname)
+                    TextSendMessage(
+                        text="Hari ini tidak ada kegiatan di %s" % roomname)
                 ]
             )
-        else :
+        else:
             line_bot_api.reply_message(
                 event.reply_token,
                 [
@@ -107,11 +108,13 @@ class MessageEventHandler:
         for option in options:
             room_name = option.text
             actions.append(
-                MessageAction(label='%s hari ini' % room_name, text='!today %s' % room_name)
+                MessageAction(label='%s hari ini' %
+                              room_name, text='!today %s' % room_name)
             )
             if (len(actions) == 3):
                 carousel_columns.append(
-                    CarouselColumn(text="Daftar ruangan %s" % str(len(carousel_columns) + 1), actions=actions)
+                    CarouselColumn(text="Daftar ruangan %s" % str(
+                        len(carousel_columns) + 1), actions=actions)
                 )
                 actions = []
         carousel_template = CarouselTemplate(

@@ -17,6 +17,7 @@ app_settings = os.getenv(
 )
 app.config.from_object(app_settings)
 
+
 @app.route('/callback', methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -34,6 +35,7 @@ def callback():
 
     return 'OK'
 
+
 @line_handler.default()
 def handle_message(event):
     try:
@@ -45,6 +47,7 @@ def handle_message(event):
         )
         print(str(error))
         traceback.print_exc()
+
 
 @app.route('/')
 def hello():

@@ -2,6 +2,7 @@ from app.handler.MessageEvent.handler import MessageEventHandler
 from app.handler.FollowEvent.handler import FollowEventHandler
 from app.handler.JoinEvent.handler import JoinEventHandler
 
+
 class Handler():
     def __init__(self):
         self.message_handler = MessageEventHandler()
@@ -10,7 +11,7 @@ class Handler():
 
     def handle(self, event):
         print(event.type)
-        
+
         if (event.type == 'message'):
             self.message_handler.handle(event)
 

@@ -1,6 +1,7 @@
 from app.line import line_bot_api, line_handler
 from linebot.models import TextSendMessage
 
+
 class FollowEventHandler:
     def __init__(self):
         pass
@@ -12,7 +13,8 @@ class FollowEventHandler:
 
         firstName = profile.display_name.split(' ')[0]
 
-        message1 = "Halo " + firstName + ", terima kasih sudah menambahkan saya sebagai teman.\nSaya dapat membantu anda terkait informasi reservasi ruangan di Departemen Informatika ITS.\n\n"
+        message1 = "Halo " + firstName + \
+            ", terima kasih sudah menambahkan saya sebagai teman.\nSaya dapat membantu anda terkait informasi reservasi ruangan di Departemen Informatika ITS.\n\n"
 
         message2 = "Beberapa perintah yang dapat anda berikan: \n\n"
 

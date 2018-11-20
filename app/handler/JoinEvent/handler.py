@@ -1,6 +1,7 @@
 from app.line import line_bot_api, line_handler
 from linebot.models import TextSendMessage
 
+
 class JoinEventHandler:
     def __init__(self):
         pass
