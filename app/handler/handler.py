@@ -7,8 +7,10 @@ class Handler():
         self.follow_handler = FollowEventHandler()
 
     def handle(self, event):
+        print(event.type)
+        
         if (event.type == 'message'):
             self.message_handler.handle(event)
-        elif (event.type == 'follow'):
-            print(event.type)
+
+        if (event.type == 'follow'):
             self.follow_handler.handle(event)

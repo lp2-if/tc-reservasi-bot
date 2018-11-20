@@ -34,7 +34,7 @@ def callback():
 
     return 'OK'
 
-@line_handler.add(MessageEvent, message=TextMessage)
+@line_handler.default()
 def handle_message(event):
     try:
         message_type_handler.handle(event)
