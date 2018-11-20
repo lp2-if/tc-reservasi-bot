@@ -16,17 +16,27 @@ class MessageEventHandler:
 
     def handle(self, event):
         try:
-            text = event.message.text.strip()
-
-            if (text.lower().startswith("!today")):
-                self.feature_today(event)
+            self.parse_command(event)
         except Exception as error:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="Error, silahkan coba lagi")
-            )
+            self.reply(event, "Terjadi kesalahan, silahkan coba lagi")
+
             print(str(error))
             traceback.print_exc()
+    
+    def parse_command(self, event):        
+        text = event.message.text.strip().lower()
+
+        if (text.startswith("!today")):
+            self.feature_today(event)
+        else:
+            self.reply("Maaf fitur ini belum tersedia, coba lagi nanti")
+
+
+    def reply(self, event, message):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=message)
+        )
 
     def feature_today(self, event):
         text = event.message.text.strip()
