@@ -16,13 +16,11 @@ class FollowEventHandler:
 
         message2 = "Beberapa perintah yang dapat anda berikan: \n\n"
 
-        command_msg_1 = "1. !today untuk melihat ruangan yang tersedia\n"
-        command_msg_2 = "2. !today [SPASI] nama ruangan untuk melihat jadwal kegiatan di ruangan tersebut untuk hari ini\n"
-        command_msg_3 = "3. !about untuk mengetahui perintah yang tersedia\n"
+        command_msg = "1. !today untuk melihat ruangan yang tersedia\n"
+        command_msg += "2. !today [SPASI] nama ruangan untuk melihat jadwal kegiatan di ruangan tersebut untuk hari ini\n"
+        command_msg += "3. !about untuk mengetahui perintah yang tersedia\n"
 
-        command_body = command_msg_1 + command_msg_2 + command_msg_3
-
-        message_body = message1 + message2 + command_body
+        message_body = message1 + message2 + command_msg
 
         line_bot_api.reply_message(
             event.reply_token,
