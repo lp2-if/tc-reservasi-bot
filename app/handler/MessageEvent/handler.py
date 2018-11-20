@@ -47,7 +47,7 @@ class MessageEventHandler:
         message += "1. !today\nUntuk melihat ruangan yang tersedia\n\n"
         message += "2. !today <nama_ruang>\nUntuk melihat jadwal hari ini\n\n"
         message += "3. !status <nama_kamu>\nuntuk mengecek status reservasi kamu\n\n"
-        message += "Hubungi admin LP2 untuk tambahan fitur\n"
+        message += "Hubungi admin LP2 untuk tambahan fitur"
         text_message = TextSendMessage(text=message)
 
         user_id = event.source.user_id
