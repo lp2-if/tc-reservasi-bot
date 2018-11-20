@@ -74,7 +74,8 @@ class MessageEventHandler:
         text = event.message.text.strip()
         commands = text.split(' ')
         if (len(commands) == 1):
-            self.reply(event, "!status <nama_kamu> untuk mengecek status reservasi kamu\n")
+            self.reply(
+                event, "!status <nama_kamu> untuk mengecek status reservasi kamu\n")
             return
         name = commands[1]
         payload = {
@@ -88,9 +89,11 @@ class MessageEventHandler:
         message = ""
         for status in statuses:
             tr = pq(status)
+            activity_issuer = tr.children("td")[1].text
             activity_name = tr.children("td")[2].text
             activity_status = tr.children("td")[4].text
-            message += "%(activity)s\n%(status)s\n\n" % {
+            message += "%(name)s\n%(activity)s\n%(status)s\n\n" % {
+                'name': activity_issuer,
                 'activity': activity_name,
                 'status': activity_status
             }
@@ -110,7 +113,6 @@ class MessageEventHandler:
                     TextSendMessage(text=message.strip())
                 ]
             )
-
 
     def feature_today(self, event):
         text = event.message.text.strip()
