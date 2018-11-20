@@ -62,7 +62,7 @@ class MessageEventHandler:
             ]
         )
         template_message = TemplateSendMessage(
-            alt_text="", template=carousel_template)
+            alt_text="Carousel menu not supported", template=carousel_template)
         line_bot_api.reply_message(event.reply_token, [
             text_message,
             template_message
