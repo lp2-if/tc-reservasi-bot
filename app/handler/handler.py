@@ -10,4 +10,5 @@ class Handler():
         if (event.type == 'message'):
             self.message_handler.handle(event)
         elif (event.type == 'follow'):
+            print(event.type)
             self.follow_handler.handle(event)
