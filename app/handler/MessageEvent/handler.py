@@ -9,7 +9,7 @@ from linebot.models import (
     MessageAction, TemplateSendMessage, URIAction
 )
 from app.line import line_bot_api, line_handler
-
+from app.utils import MessageFactory
 
 class MessageEventHandler:
     def __init__(self):
@@ -43,12 +43,8 @@ class MessageEventHandler:
         )
 
     def feature_help(self, event):
-        message = "Beberapa perintah yang dapat kamu berikan: \n\n"
-        message += "1. !today\nUntuk melihat ruangan yang tersedia\n\n"
-        message += "2. !today <nama_ruang>\nUntuk melihat jadwal hari ini\n\n"
-        message += "3. !status <nama_kamu>\nuntuk mengecek status reservasi kamu\n\n"
-        message += "4. !help\nUntuk mengetahui perintah yang tersedia\n\n"
-        message += "Hubungi admin LP2 untuk tambahan fitur"
+        message = MessageFactory.help_message()
+        
         text_message = TextSendMessage(text=message)
 
         user_id = event.source.user_id
