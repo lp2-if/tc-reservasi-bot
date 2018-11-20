@@ -7,8 +7,8 @@ class JoinEventHandler:
 
     def handle(self, event):
         message = "Halo teman - teman semua,\n"
-        message += "Terima kasih sudah mengundang saya ke grup ini,\n"
-        message += "Kirimkan pesan !help untuk melihat perintah yang tersedia."
+        message += "Terima kasih sudah mengundang saya ke grup ini.\n\n"
+        message += "Kirimkan pesan !help untuk melihat perintah yang tersedia.\n\n"
         message += "Have a nice and productive day :D"
 
         line_bot_api.reply_message(

@@ -30,8 +30,6 @@ class MessageEventHandler:
             self.feature_today(event)
         elif (text.startswith("!help")):
             self.feature_help(event)
-        else:
-            self.reply(event, "Maaf fitur ini belum tersedia, coba lagi nanti")
 
 
     def reply(self, event, message):
@@ -46,7 +44,7 @@ class MessageEventHandler:
         message += "1. !today\nUntuk melihat ruangan yang tersedia\n\n"
         message += "2. !today [SPASI] nama ruangan\nUntuk melihat jadwal kegiatan di ruangan tersebut untuk hari ini\n\n"
         message += "3. !help\nUntuk melihat jadwal kegiatan di ruangan tersebut untuk hari ini\n\n"
-        message += "4. !about\nUntuk mengetahui siapa saya\n\n"
+        message += "4. !about\nUntuk mengetahui siapa saya"
 
         self.reply(event, message)
 
