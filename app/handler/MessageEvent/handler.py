@@ -45,7 +45,7 @@ class MessageEventHandler:
 
         message += "1. !today\nUntuk melihat ruangan yang tersedia\n\n"
         message += "2. !today [SPASI] nama ruangan\nUntuk melihat jadwal kegiatan di ruangan tersebut untuk hari ini\n\n"
-        message += "3. !help\nUntuk melihat jadwal kegiatan di ruangan tersebut untuk hari ini\n\n"
+        message += "3. !help\nUntuk melihat daftar perintah yang tersedia\n\n"
         message += "4. !about\nUntuk mengetahui siapa saya"
 
         self.reply(event, message)
