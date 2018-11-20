@@ -44,7 +44,7 @@ class MessageEventHandler:
         message = "Beberapa perintah yang dapat kamu berikan: \n\n"
         message += "1. !today\nUntuk melihat ruangan yang tersedia\n"
         message += "2. !today <nama_ruang>\nUntuk melihat jadwal hari ini\n\n"
-        message += "3. !status <nama_kamu>\nuntuk mengecek status reservasi kamu\n\n"
+        # message += "3. !status <nama_kamu>\nuntuk mengecek status reservasi kamu\n\n"
         message += "Hubungi admin LP2 untuk tambahan fitur\n"
         text_message = TextSendMessage(text=message)
 
