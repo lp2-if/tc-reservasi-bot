@@ -30,6 +30,8 @@ class MessageEventHandler:
             self.feature_today(event)
         elif (text.startswith("!help")):
             self.feature_help(event)
+        elif (text.startswith("!")):
+            self.reply(event, "Maaf, perintah ini tidak dikenali.")
 
 
     def reply(self, event, message):
