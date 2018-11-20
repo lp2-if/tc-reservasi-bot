@@ -19,7 +19,7 @@ class MessageEventHandler:
         try:
             self.parse_command(event)
         except Exception as error:
-            self.reply(event, "Terjadi kesalahan, silahkan coba lagi")
+            self.reply(event, MessageFactory.error_message())
 
             print(str(error))
             traceback.print_exc()
@@ -34,7 +34,7 @@ class MessageEventHandler:
         elif (text.startswith("!status")):
             self.feature_status(event)
         elif (text.startswith("!")):
-            self.reply(event, "Maaf, perintah ini tidak dikenali.")
+            self.reply(event, MessageFactory.command_not_found_message())
 
     def reply(self, event, message):
         line_bot_api.reply_message(
@@ -80,7 +80,7 @@ class MessageEventHandler:
         commands = text.split(' ')
         if (len(commands) == 1):
             self.reply(
-                event, "!status <nama_kamu> untuk mengecek status reservasi kamu\n")
+                event, MessageFactory.status_command_invalid_message())
             return
         name = commands[1]
         payload = {

@@ -22,3 +22,12 @@ def join_message():
     message += "Have a nice and productive day :D"
 
     return message
+
+def status_command_invalid_message():
+    return "Ketik !status <nama_kamu> untuk mengecek status reservasi kamu"
+
+def command_not_found_message():
+    return "Maaf, perintah ini tidak dikenali"
+
+def error_message():
+    return "Terjadi kesalahan, silahkan coba lagi"
