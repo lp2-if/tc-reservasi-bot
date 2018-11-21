@@ -25,6 +25,8 @@ class MessageEventHandler:
             traceback.print_exc()
 
     def parse_command(self, event):
+        if (event.message.type != "message"): return
+
         text = event.message.text.strip().lower()
 
         if (text.startswith("!today")):
