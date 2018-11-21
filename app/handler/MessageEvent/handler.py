@@ -133,8 +133,8 @@ class MessageEventHandler:
 
         roomname = commands[1]
 
-        if (! self.is_room_exists(roomname)):
-            self.reply(MessageFactory.room_not_found_message(roomname))
+        if not(self.is_room_exists(roomname)):
+            self.reply(event, MessageFactory.room_not_found_message(roomname))
             return
 
         payload = {
