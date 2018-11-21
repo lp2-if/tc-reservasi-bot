@@ -24,7 +24,7 @@ def join_message():
     return message
 
 def room_not_found_message(roomname):
-    return "Ruangan " + roomname + " tidak ditemukan"
+    return "Ruangan " + roomname + " tidak ditemukan atau tidak terdaftar sebagai ruangan yang dapat dilakukan reservasi."
 
 def status_command_invalid_message():
     return "Ketik !status <nama_kamu> untuk mengecek status reservasi kamu"
