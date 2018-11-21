@@ -25,7 +25,7 @@ class MessageEventHandler:
             traceback.print_exc()
 
     def parse_command(self, event):
-        if (event.message.type != "message"): return
+        if (event.message.type != "text"): return
 
         text = event.message.text.strip().lower()
 
