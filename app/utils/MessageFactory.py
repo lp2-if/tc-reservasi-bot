@@ -23,6 +23,15 @@ def join_message():
 
     return message
 
+def status_message_body(issuer, name, status):
+    message = "%(name)s\n%(activity)s\n%(status)s\n\n" % {
+                'name': issuer,
+                'activity': name,
+                'status': status
+            }
+
+    return message
+
 def room_not_found_message(roomname):
     return "Ruangan " + roomname + " tidak ditemukan atau tidak terdaftar sebagai ruangan yang dapat dilakukan reservasi."
 
@@ -34,3 +43,9 @@ def command_not_found_message():
 
 def error_message():
     return "Terjadi kesalahan, silahkan coba lagi"
+
+def no_reservation_message(name):
+    return "Tidak ada reservasi dari %s" % name
+
+def reservation_found_title_message(name):
+    return "Status reservasi untuk %s" % name
