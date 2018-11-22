@@ -25,6 +25,8 @@ class MessageEventHandler:
             traceback.print_exc()
 
     def parse_command(self, event):
+        if (event.message.type != "text"): return
+
         text = event.message.text.strip().lower()
 
         if (text.startswith("!today")):
@@ -131,6 +133,10 @@ class MessageEventHandler:
 
         roomname = commands[1]
 
+        if not(self.is_room_exists(roomname)):
+            self.reply(event, MessageFactory.room_not_found_message(roomname))
+            return
+
         payload = {
             "start": today.strftime("%Y-%m-%d"),
             "end": tomorrow.strftime("%Y-%m-%d")
@@ -169,6 +175,30 @@ class MessageEventHandler:
                 ]
             )
 
+    def is_room_exists(self, roomname):
+        exist_rooms = [
+            'IF-101',
+            'IF-102',
+            'IF-103',
+            'IF-104',
+            'IF-105A',
+            'IF-105B',
+            'IF-106',
+            'IF-108',
+            'IF-111',
+            'IF-112',
+            'RAPAT1',
+            'RAPAT2',
+            'SIDANG',
+            'AULA',
+            'RTV',
+            'LP1',
+            'AJK',
+            'LP2'
+        ]
+
+        return roomname in exist_rooms
+
     def send_room_list(self, event):
         url = 'http://reservasi.if.its.ac.id/calendar'
         response = requests.get(url).content
@@ -195,3 +225,4 @@ class MessageEventHandler:
             alt_text='Daftar ruangan', template=carousel_template
         )
         line_bot_api.reply_message(event.reply_token, template_message)
+
