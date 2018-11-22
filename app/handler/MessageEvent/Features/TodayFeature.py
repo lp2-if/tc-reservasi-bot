@@ -1,5 +1,6 @@
 import datetime
 import requests
+from app.utils.MessageFactory import MessageFactory
 from linebot.models import (
     TextSendMessage, ButtonsTemplate,
     CarouselTemplate, CarouselColumn, PostbackAction,
@@ -22,6 +23,10 @@ class TodayFeature(BaseFeature):
             self.send_room_list(event)
             return
         else:
+            if not(self.is_room_exists(commands[1])):
+                self.simple_reply(event, MessageFactory.room_not_found_message(commands[1]))
+                return
+
             room_schedules = self.get_room_schedule(event, commands[1])
 
             message = self.construct_message_body(room_schedules)
@@ -99,3 +104,27 @@ class TodayFeature(BaseFeature):
             alt_text='Daftar ruangan', template=carousel_template
         )
         line_bot_api.reply_message(event.reply_token, template_message)
+
+    def is_room_exists(self, roomname):
+        exist_rooms = [
+            'IF-101',
+            'IF-102',
+            'IF-103',
+            'IF-104',
+            'IF-105A',
+            'IF-105B',
+            'IF-106',
+            'IF-108',
+            'IF-111',
+            'IF-112',
+            'RAPAT1',
+            'RAPAT2',
+            'SIDANG',
+            'AULA',
+            'RTV',
+            'LP1',
+            'AJK',
+            'LP2'
+        ]
+
+        return roomname in exist_rooms
