@@ -12,10 +12,12 @@ from app.line import line_bot_api, line_handler
 from app.utils import MessageFactory
 
 from app.handler.MessageEvent.Features.TodayFeature import TodayFeature
+from app.handler.MessageEvent.Features.HelpFeature import HelpFeature
 
 class MessageEventHandler:
     def __init__(self):
         self.feature_today = TodayFeature()
+        self.feature_help = HelpFeature()
 
     def handle(self, event):
         try:
@@ -34,7 +36,7 @@ class MessageEventHandler:
         if (text.startswith("!today")):
             self.feature_today.run(event)
         elif (text.startswith("!help")):
-            self.feature_help(event)
+            self.feature_help.run(event)
         elif (text.startswith("!status")):
             self.feature_status(event)
         elif (text.startswith("!")):
@@ -45,39 +47,6 @@ class MessageEventHandler:
             event.reply_token,
             TextSendMessage(text=message)
         )
-
-    def feature_help(self, event):
-        message = MessageFactory.help_message()
-        
-        text_message = TextSendMessage(text=message)
-
-        user_id = event.source.user_id
-        first_name = " "
-        try:
-            profile = line_bot_api.get_profile(user_id)
-            first_name = profile.display_name.split(' ')[0]
-        except Exception as e:
-            pass
-
-        carousel_template = CarouselTemplate(
-            columns=[
-                CarouselColumn(text="Daftar perintah 1", actions=[
-                    MessageAction(label='Daftar ruangan', text='!today'),
-                    MessageAction(label='Jadwal LP2 hari ini',
-                                  text='!today LP2'),
-                    # URIAction(label='Web reservasi IF',
-                    #           uri='http://reservasi.if.its.ac.id/'),
-                    MessageAction(label='Status reservasi',
-                                  text='!status %s' % first_name),
-                ])
-            ]
-        )
-        template_message = TemplateSendMessage(
-            alt_text="Carousel menu not supported", template=carousel_template)
-        line_bot_api.reply_message(event.reply_token, [
-            text_message,
-            template_message
-        ])
 
     def feature_status(self, event):
         text = event.message.text.strip()

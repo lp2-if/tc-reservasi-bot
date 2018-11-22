@@ -1,6 +1,6 @@
 import datetime
 import requests
-from app.utils.MessageFactory import MessageFactory
+from app.utils import MessageFactory
 from linebot.models import (
     TextSendMessage, ButtonsTemplate,
     CarouselTemplate, CarouselColumn, PostbackAction,
@@ -11,7 +11,7 @@ from app.handler.MessageEvent.Features.BaseFeature import BaseFeature
 from pyquery import PyQuery as pq
 
 class TodayFeature(BaseFeature):
-    def init(self):
+    def __init__(self):
         self.calendar_base_endpoint = 'http://reservasi.if.its.ac.id/calendar/accepted/' 
         self.today_time = datetime.datetime.today()
         self.tomorrow_time = datetime.date.today() + datetime.timedelta(days=1)
